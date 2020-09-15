@@ -1,12 +1,12 @@
 import { RECEIVE_MEASUREMENT, RECEIVE_MEASUREMENTS } from '../actions/measurement_actions'
 
-export default titleReducer = (state = "Vitals", action) => {
+export default titleReducer = (state = [], action) => {
     Object.freeze(state);
     switch (action.type) {
         case RECEIVE_MEASUREMENT:
-            return action;
+            return [...state, action.measurement]
         case RECEIVE_MEASUREMENTS:
-            return state.measurements;
+            return action.measurements;
         default:
             return state;
     }

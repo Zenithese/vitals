@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text } from 'react-native';
-import { styles } from '../../styles/styles.js'
-import FloatingActionButton from '../floating_action_button'
+import { styles } from '../../styles/styles.js';
+import FloatingActionButton from '../floating_action_button';
+import { connect } from 'react-redux';
+import { fetchMeasurements } from '../../actions/measurement_actions'
 
 
-export default function Calendar() {
+function Calendar({ measurements, fetchMeasurements }) {
 
     const [blood, setBlood] = useState("124/80")
-    const [oximeter, setOximeter] = useState("96%")
+    const [oximeterSpo2, setOximeterSpo2] = useState("96%")
+    const [oximeterPr, setOximeterPr] = useState("96%")
     const [temperature, setTemperature] = useState("98.0")
     const [style, setStyle] = useState("0")
 
+    useEffect(() => {
+        fetchMeasurements()
+    }, [fetchMeasurements])
 
     let data = [
                 {"blood": "124/80", "oximeter": "96%", "temperature": "98.0"},
@@ -24,9 +30,10 @@ export default function Calendar() {
 
     const setVitals = (index) => {
         setStyle(index)
-        setBlood(data[index].blood);
-        setOximeter(data[index].oximeter);
-        setTemperature(data[index].temperature)
+        setBlood(measurements[index].blood);
+        setOximeterSpo2(measurements[index].oximeterSpo2);
+        setOximeterPr(measurements[index].oximeterPr);
+        setTemperature(measurements[index].temperature)
     }
 
     return (
@@ -54,19 +61,34 @@ export default function Calendar() {
             </View>
             <View style={styles.cardContainer}>
                 <View style={styles.card}>
+                    <Text>temperature</Text>
+                    <Text>{temperature}°F</Text>
+                </View>
+                <View style={styles.card}>
                     <Text>Blood</Text>
-                    <Text>{blood}</Text>
+                    <Text>{blood} mmHg</Text>
                 </View>
                 <View style={styles.card}>
                     <Text>Oximeter</Text>
-                    <Text>{oximeter}</Text>
-                </View>
-                <View style={styles.card}>
-                    <Text>temperature</Text>
-                    <Text>{temperature}</Text>
+                    <Text>SpO2: {oximeterSpo2}%</Text>
+                    <Text>PR: {oximeterPr} bpm</Text>
                 </View>
             </View>
             <FloatingActionButton />
         </View>
     )
 }
+
+const mapStateToProps = ({ entities }) => {
+    return {
+        measurements: entities.measurements,
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchMeasurements: () => dispatch(fetchMeasurements())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
