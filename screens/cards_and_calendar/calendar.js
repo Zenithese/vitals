@@ -12,10 +12,10 @@ function Calendar({ measurements, fetchMeasurements }) {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     const dayOfYear = date => Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
 
-    const [blood, setBlood] = useState("124/80")
-    const [oximeterSpo2, setOximeterSpo2] = useState("96%")
-    const [oximeterPr, setOximeterPr] = useState("96%")
-    const [temperature, setTemperature] = useState("98.0")
+    const [blood, setBlood] = useState("__ /__")
+    const [oximeterSpo2, setOximeterSpo2] = useState("__")
+    const [oximeterPr, setOximeterPr] = useState("__")
+    const [temperature, setTemperature] = useState("__")
     const [month, setMonth] = useState(new Date().getMonth())
     const [date, setDate] = useState(new Date().getDate())
     const [day, setDay] = useState(new Date().getDay())
@@ -31,7 +31,7 @@ function Calendar({ measurements, fetchMeasurements }) {
             setOximeterPr(measurements[month][date] ? measurements[month][date].oximeterPr : "__");
             setTemperature(measurements[month][date] ? measurements[month][date].temperature : "__")
         }
-    }, [date])
+    }, [date, measurements])
 
     useEffect(() => {
         if (date > new Date(new Date().getFullYear(), month + 1, 0).getDate()) {
@@ -46,13 +46,6 @@ function Calendar({ measurements, fetchMeasurements }) {
     const setVitals = (index) => {
         setDate(date - (day - index))
         setDay(index)
-    }
-
-    function weekCount(year, month_number) {
-        var firstOfMonth = new Date(year, month_number - 1, 1);
-        var lastOfMonth = new Date(year, month_number, 0);
-        var used = firstOfMonth.getDay() + lastOfMonth.getDate();
-        return Math.ceil(used / 7);
     }
 
     const week = () => {
@@ -123,6 +116,7 @@ function Calendar({ measurements, fetchMeasurements }) {
 }
 
 const mapStateToProps = ({ entities }) => {
+    console.log(entities.measurements[entities.measurements.length - 1])
     return {
         measurements: entities.measurements,
     }
