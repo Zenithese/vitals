@@ -10,10 +10,10 @@ import { createMeasurement } from '../actions/measurement_actions'
 
 function MeasureNow({ createMeasurement }) {
 
-    const [temperature, setTemperature] = useState("Use wearable to run test")
-    const [blood, setBlood] = useState("Use wearable to run test")
-    const [oximeterSpo2, setOximeterSpo2] = useState("Use wearable to run test")
-    const [oximeterPr, setOximeterPr] = useState("Use wearable to run test")
+    const [temperature, setTemperature] = useState("__")
+    const [blood, setBlood] = useState("__ /__")
+    const [oximeterSpo2, setOximeterSpo2] = useState("__")
+    const [oximeterPr, setOximeterPr] = useState("__")
 
     const handleComplete = (e) => {
         e.preventDefault()

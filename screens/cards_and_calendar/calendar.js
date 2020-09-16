@@ -26,10 +26,10 @@ function Calendar({ measurements, fetchMeasurements }) {
 
     useEffect(() => {
         if (measurements.length) {
-            setBlood(measurements[month][date] ? measurements[month][date].blood : "");
-            setOximeterSpo2(measurements[month][date] ? measurements[month][date].oximeterSpo2 : "");
-            setOximeterPr(measurements[month][date] ? measurements[month][date].oximeterPr : "");
-            setTemperature(measurements[month][date] ? measurements[month][date].temperature : "")
+            setBlood(measurements[month][date] ? measurements[month][date].blood : "__ /__");
+            setOximeterSpo2(measurements[month][date] ? measurements[month][date].oximeterSpo2 : "__");
+            setOximeterPr(measurements[month][date] ? measurements[month][date].oximeterPr : "__");
+            setTemperature(measurements[month][date] ? measurements[month][date].temperature : "__")
         }
     }, [date])
 
