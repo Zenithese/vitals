@@ -22,7 +22,7 @@ function Calendar({ measurements, fetchMeasurements }) {
 
     useEffect(() => {
         fetchMeasurements()
-    }, [fetchMeasurements])
+    }, [])
 
     useEffect(() => {
         if (measurements.length) {
@@ -44,6 +44,7 @@ function Calendar({ measurements, fetchMeasurements }) {
     }, [date])
 
     const setVitals = (index) => {
+        fetchMeasurements()
         setDate(date - (day - index))
         setDay(index)
     }
@@ -116,7 +117,6 @@ function Calendar({ measurements, fetchMeasurements }) {
 }
 
 const mapStateToProps = ({ entities }) => {
-    console.log(entities.measurements[entities.measurements.length - 1])
     return {
         measurements: entities.measurements,
     }
