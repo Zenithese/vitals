@@ -14,12 +14,18 @@ export const styles = StyleSheet.create({
         color: 'blue',
         fontSize: 20
     },
+    month: {
+        marginTop: 10,
+        textAlign: "center",
+        alignItems: 'center',
+    },
     cardContainer: {
         flex: 1,
         flexDirection: "row",
         flexWrap: "wrap",
         justifyContent: 'space-around',
         marginTop: 50,
+        backgroundColor: "whitesmoke",
     },
     card: {
         width: "40%", 
@@ -53,6 +59,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: "wrap",
         padding: 20,
+        backgroundColor: "whitesmoke"
     },
     dates: {
         flex: 1,
@@ -63,6 +70,7 @@ export const styles = StyleSheet.create({
         borderRadius: 10,
         overflow: "hidden",
         textAlign: "center",
+        fontWeight: "bold",
     },
     selectedDate: {
         flex: 1,
@@ -74,6 +82,7 @@ export const styles = StyleSheet.create({
         overflow: "hidden",
         backgroundColor: "powderblue",
         textAlign: "center",
+        fontWeight: "bold",
     },
     fab: {
         position: 'absolute',

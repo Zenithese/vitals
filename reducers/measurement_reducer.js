@@ -6,7 +6,12 @@ export default titleReducer = (state = [], action) => {
         case RECEIVE_MEASUREMENT:
             return [...state, action.measurement]
         case RECEIVE_MEASUREMENTS:
-            return action.measurements;
+            Date.prototype.getMonthWeek = function () { var firstDay = new Date(this.getFullYear(), this.getMonth(), 1).getDay(); return Math.ceil((this.getDate() + firstDay) / 7) }
+            let newState = new Array(12).fill(0).map(() => new Array)
+            action.measurements.forEach((measurement) => {
+                newState[new Date(measurement.createdAt).getMonth()][new Date(measurement.createdAt).getDate()] = measurement
+            })
+            return newState;
         default:
             return state;
     }

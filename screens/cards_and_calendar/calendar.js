@@ -1,44 +1,90 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import { styles } from '../../styles/styles.js';
 import FloatingActionButton from '../floating_action_button';
 import { connect } from 'react-redux';
 import { fetchMeasurements } from '../../actions/measurement_actions'
+import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures';
 
 
 function Calendar({ measurements, fetchMeasurements }) {
+
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    const dayOfYear = date => Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
 
     const [blood, setBlood] = useState("124/80")
     const [oximeterSpo2, setOximeterSpo2] = useState("96%")
     const [oximeterPr, setOximeterPr] = useState("96%")
     const [temperature, setTemperature] = useState("98.0")
-    const [style, setStyle] = useState("0")
+    const [month, setMonth] = useState(new Date().getMonth())
+    const [date, setDate] = useState(new Date().getDate())
+    const [day, setDay] = useState(new Date().getDay())
 
     useEffect(() => {
         fetchMeasurements()
     }, [fetchMeasurements])
 
-    let data = [
-                {"blood": "124/80", "oximeter": "96%", "temperature": "98.0"},
-                {"blood": "124/70", "oximeter": "94%", "temperature": "97.0"},
-                {"blood": "127/80", "oximeter": "95%", "temperature": "98.3"},
-                {"blood": "134/75", "oximeter": "86%", "temperature": "97.6"},
-                {"blood": "130/60", "oximeter": "76%", "temperature": "97.4"},
-                {"blood": "124/90", "oximeter": "99%", "temperature": "98.1"},
-                {"blood": "124/80", "oximeter": "89%", "temperature": "97.6"},
-            ]
+    useEffect(() => {
+        if (measurements.length) {
+            setBlood(measurements[month][date] ? measurements[month][date].blood : "");
+            setOximeterSpo2(measurements[month][date] ? measurements[month][date].oximeterSpo2 : "");
+            setOximeterPr(measurements[month][date] ? measurements[month][date].oximeterPr : "");
+            setTemperature(measurements[month][date] ? measurements[month][date].temperature : "")
+        }
+    }, [date])
+
+    useEffect(() => {
+        if (date > new Date(new Date().getFullYear(), month + 1, 0).getDate()) {
+            setMonth(month + 1)
+            setDate(date - new Date(new Date().getFullYear(), month + 1, 0).getDate())
+        } else if (date <= 0) {
+            setMonth(month - 1)
+            setDate(date + new Date(new Date().getFullYear(), month, 0).getDate())
+        }
+    }, [date])
 
     const setVitals = (index) => {
-        setStyle(index)
-        setBlood(measurements[index].blood);
-        setOximeterSpo2(measurements[index].oximeterSpo2);
-        setOximeterPr(measurements[index].oximeterPr);
-        setTemperature(measurements[index].temperature)
+        setDate(date - (day - index))
+        setDay(index)
+    }
+
+    function weekCount(year, month_number) {
+        var firstOfMonth = new Date(year, month_number - 1, 1);
+        var lastOfMonth = new Date(year, month_number, 0);
+        var used = firstOfMonth.getDay() + lastOfMonth.getDate();
+        return Math.ceil(used / 7);
+    }
+
+    const week = () => {
+        let dates = []
+        let lastDayOfTheMonth = new Date(new Date().getFullYear(), month + 1, 0).getDate();
+        for (let i = 0; i < 7; i++) {
+            if (lastDayOfTheMonth < date - day + i) {
+                dates.push(<Text key={i} style={day === i ? styles.selectedDate : styles.dates} onPress={() => setVitals(i)}>·</Text>)
+            } else if (date - day + i <= 0) {
+                dates.push(<Text key={i} style={day === i ? styles.selectedDate : styles.dates} onPress={() => setVitals(i)}>·</Text>)
+            } else {
+                dates.push(<Text key={i} style={day === i ? styles.selectedDate : styles.dates} onPress={() => setVitals(i)}>{date - day + i}</Text>)
+            }
+        }
+        return (
+            <View style={styles.datesContainer}>
+                {dates}
+            </View>
+        )
     }
 
     return (
         <View style={styles.calendarContainer}>
             <View>
+                <View style={styles.month}>
+                <GestureRecognizer
+                        onSwipeLeft={() => { date < 10 ? setDate(date + 35) : setDate(date + 28) }}
+                        onSwipeRight={() => { date > 20 ? setDate(date - 35) : setDate(date - 28) }}
+                >
+                    <Text>{months[month]}</Text>
+                </GestureRecognizer>
+                </View>
                 <View style={styles.calendar}>
                     <Text style={styles.days}>Sun</Text>
                     <Text style={styles.days}>Mon</Text>
@@ -49,15 +95,12 @@ function Calendar({ measurements, fetchMeasurements }) {
                     <Text style={styles.days}>Sat</Text>
                 </View>
                 <View style={styles.line} />
-                <View style={styles.datesContainer}>
-                    <Text style={style === "0" ? styles.selectedDate : styles.dates} onPress={() => setVitals("0")}>1</Text>
-                    <Text style={style === "1" ? styles.selectedDate : styles.dates} onPress={() => setVitals("1")}>2</Text>
-                    <Text style={style === "2" ? styles.selectedDate : styles.dates} onPress={() => setVitals("2")}>3</Text>
-                    <Text style={style === "3" ? styles.selectedDate : styles.dates} onPress={() => setVitals("3")}>4</Text>
-                    <Text style={style === "4" ? styles.selectedDate : styles.dates} onPress={() => setVitals("4")}>5</Text>
-                    <Text style={style === "5" ? styles.selectedDate : styles.dates} onPress={() => setVitals("5")}>6</Text>
-                    <Text style={style === "6" ? styles.selectedDate : styles.dates} onPress={() => setVitals("6")}>7</Text>
-                </View>
+                <GestureRecognizer
+                    onSwipeLeft={() => setDate(date + 7)}
+                    onSwipeRight={() => setDate(date - 7)}
+                >  
+                    {week()}
+                </GestureRecognizer>
             </View>
             <View style={styles.cardContainer}>
                 <View style={styles.card}>
@@ -92,3 +135,15 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
+
+{/* <Text style={day === 0 ? styles.selectedDate : styles.dates} onPress={() => setVitals(0)}>{date - day + 0}</Text>
+                    <Text style={day === 1 ? styles.selectedDate : styles.dates} onPress={() => setVitals(1)}>{date - day + 1}</Text>
+                    <Text style={day === 2 ? styles.selectedDate : styles.dates} onPress={() => setVitals(2)}>{date - day + 2}</Text>
+                    <Text style={day === 3 ? styles.selectedDate : styles.dates} onPress={() => setVitals(3)}>{date - day + 3}</Text>
+                    <Text style={day === 4 ? styles.selectedDate : styles.dates} onPress={() => setVitals(4)}>{date - day + 4}</Text>
+                    <Text style={day === 5 ? styles.selectedDate : styles.dates} onPress={() => setVitals(5)}>{date - day + 5}</Text>
+                    <Text style={day === 6 ? styles.selectedDate : styles.dates} onPress={() => setVitals(6)}>{date - day + 6}</Text> */}
+
+// <Button title={"last month"} onPress={() => { setMonth(month - 1); setDate(date - 35) }}></Button>
+//     <Text>{months[month]}</Text>
+// <Button title={"next month"} onPress={() => { setMonth(month + 1); setDate(date + 35) }}></Button>
