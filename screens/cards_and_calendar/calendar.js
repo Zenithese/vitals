@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text } from 'react-native';
 import { styles } from '../../styles/styles.js';
 import FloatingActionButton from '../floating_action_button';
 import { connect } from 'react-redux';
@@ -68,46 +68,62 @@ function Calendar({ measurements, fetchMeasurements }) {
     }
 
     return (
-        <View style={styles.calendarContainer}>
-            <View>
-                <View style={styles.month}>
+        <View style={styles.calendarComponentContainer}>
+            <View style={styles.month}>
                 <GestureRecognizer
-                        onSwipeLeft={() => { date < 10 ? setDate(date + 35) : setDate(date + 28) }}
-                        onSwipeRight={() => { date > 20 ? setDate(date - 35) : setDate(date - 28) }}
+                    onSwipeLeft={() => { date < 10 ? setDate(date + 35) : setDate(date + 28) }}
+                    onSwipeRight={() => { date > 20 ? setDate(date - 35) : setDate(date - 28) }}
                 >
                     <Text>{months[month]}</Text>
                 </GestureRecognizer>
+            </View>
+            <View style={styles.calendarContainerParent}>
+                <View style={styles.calendarContainer}>
+                    <View style={styles.calendar}>
+                        <Text style={styles.days}>Sun</Text>
+                        <Text style={styles.days}>Mon</Text>
+                        <Text style={styles.days}>Tues</Text>
+                        <Text style={styles.days}>Wed</Text>
+                        <Text style={styles.days}>Thurs</Text>
+                        <Text style={styles.days}>Fri</Text>
+                        <Text style={styles.days}>Sat</Text>
+                    </View>
+                    <View style={styles.line} />
+                    <GestureRecognizer
+                        onSwipeLeft={() => setDate(date + 7)}
+                        onSwipeRight={() => setDate(date - 7)}
+                    >
+                        {week()}
+                    </GestureRecognizer>
                 </View>
-                <View style={styles.calendar}>
-                    <Text style={styles.days}>Sun</Text>
-                    <Text style={styles.days}>Mon</Text>
-                    <Text style={styles.days}>Tues</Text>
-                    <Text style={styles.days}>Wed</Text>
-                    <Text style={styles.days}>Thurs</Text>
-                    <Text style={styles.days}>Fri</Text>
-                    <Text style={styles.days}>Sat</Text>
-                </View>
-                <View style={styles.line} />
-                <GestureRecognizer
-                    onSwipeLeft={() => setDate(date + 7)}
-                    onSwipeRight={() => setDate(date - 7)}
-                >  
-                    {week()}
-                </GestureRecognizer>
             </View>
             <View style={styles.cardContainer}>
-                <View style={styles.card}>
-                    <Text>temperature</Text>
-                    <Text>{temperature}°F</Text>
+                <View style={styles.leftDeck}>
+                    <View style={styles.cardTemp}>
+                        <Text style={styles.cardType}>temperature</Text>
+                        <Text style={styles.cardReading}>{temperature}</Text>
+                        <Text style={styles.cardMetric}>°F</Text>
+                    </View>
+                    <View style={styles.cardx2}>
+                        <Text style={styles.cardTypeOxi}>Oximeter</Text>
+                        <Text style={styles.cardReadingOxiHeaderSpO2} >SpO2</Text>
+                        <Text style={styles.cardReadingOxiSpO2} >{oximeterSpo2}</Text>
+                        <Text style={styles.cardMetricOxiSpO2} >%</Text>
+                        <Text style={styles.cardReadingOxiHeader} >PR</Text>
+                        <Text style={styles.cardReadingOxi} >{oximeterPr}</Text>
+                        <Text style={styles.cardMetricOxi}> bpm</Text>
+                    </View>
                 </View>
-                <View style={styles.card}>
-                    <Text>Blood</Text>
-                    <Text>{blood} mmHg</Text>
-                </View>
-                <View style={styles.card}>
-                    <Text>Oximeter</Text>
-                    <Text>SpO2: {oximeterSpo2}%</Text>
-                    <Text>PR: {oximeterPr} bpm</Text>
+                <View style={styles.rightDeck}>
+                    <View style={styles.cardx2Blood}>
+                        <Text style={styles.cardTypeBlood}>Blood</Text>
+                        <Text style={styles.cardReadingBlood}>{blood}</Text>
+                        <Text style={styles.cardMetricBlood}>mmHg</Text>
+                    </View>
+
+                    <View style={styles.card}>
+                        <Text>Face ID</Text>
+                    </View>
                 </View>
             </View>
             <FloatingActionButton />
