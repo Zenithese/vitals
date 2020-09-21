@@ -88,7 +88,6 @@ function Calendar({ measurements, fetchMeasurements }) {
                         <Text style={styles.days}>Fri</Text>
                         <Text style={styles.days}>Sat</Text>
                     </View>
-                    <View style={styles.line} />
                     <GestureRecognizer
                         onSwipeLeft={() => setDate(date + 7)}
                         onSwipeRight={() => setDate(date - 7)}

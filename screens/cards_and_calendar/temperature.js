@@ -27,9 +27,9 @@ export default function Temperature({ temperature, updateTemperature }) {
                         <Text style={styles.directionsText}>Wear <Text style={{fontWeight: "bold"}}>Thermoeter</Text> to view Temperature</Text>
                     </View>
                     <Text style={styles.category}>{category}</Text>
-                    <Text>
+                    <View>
                         <ActivityIndicator size="large" style={spinnerStyle} />
-                    </Text>
+                    </View>
                     <Text style={styles.reading}>{temperature}</Text>
                     <Text style={styles.readingType}>°F</Text>
                 </View> 

@@ -25,7 +25,7 @@ export default function Oximeter({ oximeter, updateOximeter, oximeterPr, updateO
                 <View style={styles.measurement}>
                     <View style={style}><Text style={styles.directionsText}>Wear <Text style={{ fontWeight: "bold" }}>Oximeter</Text> to view SpO2 and PR</Text></View>
                     <Text style={styles.category}>SpO2</Text>
-                    <Text><ActivityIndicator size="large" style={spinnerStyle} /></Text>
+                    <View><ActivityIndicator size="large" style={spinnerStyle} /></View>
                     <Text style={styles.readingSpO2}>{oximeter}</Text>
                     <Text style={styles.readingTypeSpO2}>%</Text>
                     <Text style={styles.categorySpO2}>PR</Text>

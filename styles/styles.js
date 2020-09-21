@@ -321,6 +321,8 @@ export const styles = StyleSheet.create({
     },
     vanish: {
         display: "none",
+        width: 10,
+        height: 10,
     },
     category: {
         position: "absolute",
@@ -329,6 +331,8 @@ export const styles = StyleSheet.create({
     spinner: {
         position: "absolute",
         zIndex: 2,
+        width: 10,
+        height: 10,
     },
     reading: {
         position: "absolute",

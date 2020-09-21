@@ -25,7 +25,9 @@ export default function Blood({ blood, updateBlood, denominator, updateDenominat
                 <View style={styles.measurement}>
                     <View style={style}><Text style={styles.directionsText}>Wear <Text style={{ fontWeight: "bold" }}>Blood Pressure Monitor</Text> to view Blood Pressure</Text></View>
                     <Text style={styles.category}>Blood</Text>
-                    <Text><ActivityIndicator size="large" style={spinnerStyle} /></Text>
+                    <View>
+                        <ActivityIndicator size="large" style={spinnerStyle} />
+                    </View>
                     <Text style={styles.reading}>{blood}<Text style={styles.denominator}>{denominator}</Text></Text>
                     <Text style={styles.readingType}>mmHg</Text>
                 </View>
