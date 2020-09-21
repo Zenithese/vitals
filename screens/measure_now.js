@@ -10,10 +10,11 @@ import { createMeasurement } from '../actions/measurement_actions'
 
 function MeasureNow({ createMeasurement }) {
 
-    const [temperature, setTemperature] = useState("__")
-    const [blood, setBlood] = useState("__ /__")
-    const [oximeterSpo2, setOximeterSpo2] = useState("__")
-    const [oximeterPr, setOximeterPr] = useState("__")
+    const [temperature, setTemperature] = useState("0")
+    const [blood, setBlood] = useState("0/")
+    const [bloodDenominator, setBloodDenominator] = useState("0")
+    const [oximeterSpo2, setOximeterSpo2] = useState("0")
+    const [oximeterPr, setOximeterPr] = useState("0")
 
     const handleComplete = (e) => {
         e.preventDefault()
@@ -31,7 +32,7 @@ function MeasureNow({ createMeasurement }) {
         <View style={styles.measurements}>
 
             <Temperature temperature={temperature} updateTemperature={setTemperature}/>
-            <Blood blood={blood} updateBlood={setBlood} />
+            <Blood blood={blood} updateBlood={setBlood} denominator={bloodDenominator} updateDenominator={setBloodDenominator}/>
             <Oximeter oximeter={oximeterSpo2} updateOximeter={setOximeterSpo2} oximeterPr={oximeterPr} updateOximeterPr={setOximeterPr}/>
 
             <View style={styles.button} >

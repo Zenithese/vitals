@@ -10,7 +10,6 @@ import GestureRecognizer, { swipeDirections } from 'react-native-swipe-gestures'
 function Calendar({ measurements, fetchMeasurements }) {
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-    const dayOfYear = date => Math.floor((date - new Date(date.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
 
     const [blood, setBlood] = useState("__ /__")
     const [oximeterSpo2, setOximeterSpo2] = useState("__")
@@ -35,10 +34,10 @@ function Calendar({ measurements, fetchMeasurements }) {
 
     useEffect(() => {
         if (date > new Date(new Date().getFullYear(), month + 1, 0).getDate()) {
-            setMonth(month + 1)
+            setMonth((month + 1) % 12)
             setDate(date - new Date(new Date().getFullYear(), month + 1, 0).getDate())
         } else if (date <= 0) {
-            setMonth(month - 1)
+            setMonth(month - 1 === -1 ? 11 : month - 1)
             setDate(date + new Date(new Date().getFullYear(), month, 0).getDate())
         }
     }, [date])
@@ -129,15 +128,3 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
-
-{/* <Text style={day === 0 ? styles.selectedDate : styles.dates} onPress={() => setVitals(0)}>{date - day + 0}</Text>
-                    <Text style={day === 1 ? styles.selectedDate : styles.dates} onPress={() => setVitals(1)}>{date - day + 1}</Text>
-                    <Text style={day === 2 ? styles.selectedDate : styles.dates} onPress={() => setVitals(2)}>{date - day + 2}</Text>
-                    <Text style={day === 3 ? styles.selectedDate : styles.dates} onPress={() => setVitals(3)}>{date - day + 3}</Text>
-                    <Text style={day === 4 ? styles.selectedDate : styles.dates} onPress={() => setVitals(4)}>{date - day + 4}</Text>
-                    <Text style={day === 5 ? styles.selectedDate : styles.dates} onPress={() => setVitals(5)}>{date - day + 5}</Text>
-                    <Text style={day === 6 ? styles.selectedDate : styles.dates} onPress={() => setVitals(6)}>{date - day + 6}</Text> */}
-
-// <Button title={"last month"} onPress={() => { setMonth(month - 1); setDate(date - 35) }}></Button>
-//     <Text>{months[month]}</Text>
-// <Button title={"next month"} onPress={() => { setMonth(month + 1); setDate(date + 35) }}></Button>

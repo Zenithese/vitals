@@ -105,32 +105,30 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-around',
         flex: 1,
+        flexDirection: "row",
     },
     temperature: {
-        backgroundColor: 'powderblue',
+        backgroundColor: '#e6e6e6',
         margin: 30,
         marginBottom: 0,
         flex: 1,
         borderColor: "red",
-        borderWidth: StyleSheet.hairlineWidth,
         borderRadius: 10,
     },
     blood: {
-        backgroundColor: 'powderblue',
+        backgroundColor: '#e6e6e6',
         margin: 30,
         marginBottom: 0,
         flex: 1,
         borderColor: "red",
-        borderWidth: StyleSheet.hairlineWidth,
         borderRadius: 10,
     },
     oximeter: {
-        backgroundColor: 'powderblue',
+        backgroundColor: '#e6e6e6',
         margin: 30,
         justifyContent: 'space-around',
         flex: 1,
         borderColor: "red",
-        borderWidth: StyleSheet.hairlineWidth,
         borderRadius: 10,
     },
     fillParent: {
@@ -138,12 +136,12 @@ export const styles = StyleSheet.create({
         width: "100%"
     },
     button: {
-        backgroundColor: 'powderblue',
+        backgroundColor: '#262673',
         margin: 30,
         flex: .4,
         borderColor: "red",
-        borderWidth: StyleSheet.hairlineWidth,
         borderRadius: 10,
+        opacity: 0.9,
     },
     buttonText: {
         color: "white", 
@@ -152,4 +150,63 @@ export const styles = StyleSheet.create({
         textShadowColor: "black",
         textShadowRadius: 2,
     },
+    measurementDirections: {
+        backgroundColor: "#262673",
+        position: "absolute",
+        height: "100%",
+        width: "70%",
+        top: 0,
+        right: 0,
+        borderRadius: 10,
+        zIndex: 1,
+        opacity: 0.9,
+    },
+    vanish: {
+        display: "none",
+    },
+    category: {
+        position: "absolute",
+        left: 50
+    },
+    spinner: {
+        position: "absolute",
+        zIndex: 2,
+    },
+    reading: {
+        position: "absolute",
+        right: 50,
+        fontSize: 40,
+        fontWeight: "bold",
+        color: "#262673",
+    },
+    readingType: {
+        position: "absolute",
+        right: 40,
+        top: 110,
+    },
+    readingSpO2: {
+        position: "absolute",
+        right: "50%",
+        fontSize: 40,
+        fontWeight: "bold",
+    },
+    readingTypeSpO2: {
+        position: "absolute",
+        right: "48%",
+        top: 110,
+        color: "#262673",
+    },
+    categorySpO2: {
+        position: "absolute",
+        right: "33%",
+    },
+    directionsText: {
+        color: "white",
+        textAlign: "center",
+        justifyContent: 'center',
+        margin: 60
+    },
+    denominator: {
+        color: "#00cccc"
+    }
 });
